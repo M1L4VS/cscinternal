@@ -5,55 +5,51 @@
  * @16.05/2022
  */
 import java.util.Scanner;
-public class wrapAroundBorder
+public class correctxywraparound
 {
     // instance variables - replace the example below with your own
+    private int x;
     final int ROWS = 10;
     final int COLS = 10;
     int dead = 0;    
     //String aliveFace = "☻";
-    int futureBoard[][] = new int[ROWS][COLS];
-    //int futureBoard[][] = new int [ROWS][COLS];  
-    int currentBoard[][] = new int [ROWS][COLS];
-    // {
-    // {0,0,0,0,0,0,0,0,0,0},
-    // {0,0,0,0,0,0,0,0,0,0},
-    // {0,0,0,0,1,0,0,0,0,0},
-    // {0,0,0,0,1,0,0,0,0,0},
-    // {0,0,0,0,1,0,0,0,0,0},
-    // {0,0,0,0,0,0,0,0,0,0},
-    // {0,0,0,0,0,0,0,0,0,0},
-    // {0,0,0,0,0,0,0,0,0,0},
-    // {0,0,0,0,0,0,0,0,0,0},
-    // {0,0,0,0,0,0,0,0,0,0}
-    // };
+    int futureBoard[][] = new int[COLS][ROWS];
+    int currentBoard[][] = {
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,1,0,0,0,0,0},
+            {0,0,0,0,1,0,0,0,0,0},
+            {0,0,0,0,1,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0}
+        };
     /**
      * Constructor for objects of class twodimensionalarray
      */
-    public wrapAroundBorder()
+    public correctxywraparound()
     {
         // initialise instance variables
-        // currentBoard[2][4] = 1;
-        // currentBoard[3][4] = 1;
-        // currentBoard[4][4] = 1;
         System.out.println('\u000c');
         Scanner keyboard = new Scanner(System.in);
         System.out.println("☻");
         System.out.println("How many iterations do you want?");
         String iterations = keyboard.nextLine();
         int iterationNum = Integer.parseInt(iterations);
-        for(int row=0; row<ROWS; row++){
-            for(int col=0; col<COLS; col++){                
-                currentBoard[row][col] = (int)(Math.floor(Math.random()*(1-0+1)+0));
-            }
-        }
+        // for(int x=0; x<COLS; x++){
+            // for(int y = 0; y<ROWS; y++){                
+                // //currentBoard[x][y] = (int)(Math.floor(Math.random()*(1-0+1)+0));
+            // }
+        // }
 
         for(int i=0; i<iterationNum; i++){
             printBoard();
             System.out.println();
-            for(int row=0; row<ROWS; row++)
-                for(int col=0; col<COLS; col++)
-                    currentBoard[row][col] = futureBoard[row][col];
+            for(int y = 0; y<ROWS; y++)
+                for(int x=0; x<COLS; x++)
+                    currentBoard[x][y] = futureBoard[x][y];
 
         }
         System.out.println("  ");
@@ -73,25 +69,60 @@ public class wrapAroundBorder
      * @return    the sum of x and y
      */
     public void printBoard(){
-        for(int row=0; row<ROWS; row++){
-            for(int col=0; col<COLS; col++){                
-                if(currentBoard[row][col] == 0){
-                    System.out.print(" □ ");
-                }
-                if(currentBoard[row][col] == 1){
-                    System.out.print(" ■ ");
-                }
-                //System.out.print(currentBoard[row][col] + " ");
-                futureBoard[row][col] = isAlive(row, col);
+        for(int y = 0; y<ROWS; y++){
+            for(int x=0; x<COLS; x++){                
+                System.out.print(currentBoard[x][y] + " ");
+                futureBoard[x][y] = ifAlive(x, y);
             }
             System.out.println();
         }
     }
-
-    int isAlive(int row, int col)
+   
+    public int ifAlive(int x, int y)
     {
-        int neighbours = 0;
-        int deadOrAlive = 0;
+        // put your code here
+        //if(currentBoard[x][y] == 0)
+        int deadOrAlive;
+        int neighbours;
+        deadOrAlive = 0;
+        if(x == 0 || y == 0 || x == COLS - 1 || y == ROWS - 1){
+            futureBoard[x][y] = ifAliveEdge (x, y);
+        }else{
+            neighbours = (currentBoard[x][y-1] + currentBoard[x][y+1] + currentBoard[x-1][y] +
+                          currentBoard[x+1][y] + currentBoard[x-1][y-1] + currentBoard[x+1][y+1] +
+                          currentBoard[x-1][y+1] + currentBoard[x+1][y-1]);
+                         
+            if(currentBoard[x][y] == 0){
+                if(neighbours == 3){
+                    deadOrAlive = 1;
+                }else {
+                    deadOrAlive = 0;
+                }
+            }
+            else if(currentBoard[x][y] == 1){
+                if(neighbours < 2){
+                    deadOrAlive = 0;
+                }else if(neighbours == 2 || neighbours == 3){
+                    deadOrAlive = 1;
+                }else if(neighbours > 3){
+                    deadOrAlive = 0;
+                }else {
+                    deadOrAlive = 0;
+                }
+            } else{
+                deadOrAlive = 0;
+            }
+        }
+       
+        return deadOrAlive;
+    }
+
+    public int ifAliveEdge(int x, int y)
+    {
+        // put your code here
+        //if(currentBoard[x][y] == 0)
+        int deadOrAlive;
+        int neighbours;
         // Top left ↖
         if (row-1 >=0 && col-1 >= 0) {
             neighbours += currentBoard[row-1][col-1];
@@ -136,14 +167,15 @@ public class wrapAroundBorder
         if (row+1 < ROWS && col+1 < COLS) {
             neighbours += currentBoard[row+1][col+1];
         }
-        if(currentBoard[row][col] == 0){
+
+        if(currentBoard[x][y] == 0){
             if(neighbours == 3){
                 deadOrAlive = 1;
             }else {
                 deadOrAlive = 0;
             }
         }
-        else if(currentBoard[row][col] == 1){
+        else if(currentBoard[x][y] == 1){
             if(neighbours < 2){
                 deadOrAlive = 0;
             }else if(neighbours == 2 || neighbours == 3){
@@ -160,3 +192,4 @@ public class wrapAroundBorder
     }
 
 }
+//}
