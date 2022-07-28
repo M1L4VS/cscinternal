@@ -117,65 +117,69 @@ public class correctxywraparound
         return deadOrAlive;
     }
 
-    public int ifAliveEdge(int x, int y)
+    public int ifAliveEdge(int row, int col)
     {
         // put your code here
         //if(currentBoard[x][y] == 0)
         int deadOrAlive;
-        int neighbours;
+        int neighbours = 0;
         // Top left ↖
         if (row-1 >=0 && col-1 >= 0) {
             neighbours += currentBoard[row-1][col-1];
         }else{
-            neighbours += (currentBoard[ROWS-1][COLS-1] + currentBoard[0][ROWS] + currentBoard[COLS][0]);
+            neighbours += (currentBoard[ROWS-1][COLS-1] + currentBoard[0][COLS] + currentBoard[ROWS][0] + currentBoard[ROWS][1] + currentBoard[1][COLS]);
         }
         // Top middle ⬆
         if (row-1 >= 0) {
             neighbours += currentBoard[row-1][col];
         }else{
-            neighbours += (currentBoard[row-1][COLS-1]);
+            neighbours += (currentBoard[row-1][COLS-1] + currentBoard[row][COLS-1] + currentBoard[row+1][COLS-1]);
         }
         // Top right ↗
         if (row-1 >= 0 && col+1 < COLS) {
             neighbours += currentBoard[row-1][col+1];
         }else{
-            neighbours += currentBoard[0][COLS];
+            neighbours += (currentBoard[0][COLS] + currentBoard[0][0] + currentBoard[0][1] + currentBoard[ROWS][COLS] + currentBoard[ROWS-1][COLS]);
         }
         // Left ⬅
         if (col-1 >= 0) {
             neighbours += currentBoard[row][col-1];
         }else{
-            neighbours += currentBoard[ROWS][col];
+            neighbours += (currentBoard[ROWS][col] + currentBoard[ROWS][col-1] + currentBoard[ROWS][col+1]);
         }
         // Right ➡
         if (col+1 < COLS) {
             neighbours += currentBoard[row][col+1];
         }else{
-            neighbours += currentBoard[row][COLS];
+            neighbours += (currentBoard[0][col] + currentBoard[0][col-1] + currentBoard[0][col+1]);
         }
         // Bottom left ↙
         if (row+1 < ROWS && col-1 >= 0) {
             neighbours += currentBoard[row+1][col-1];
         }else{
-            neighbours += currentBoard[0][COLS];
+            neighbours += (currentBoard[ROWS][COLS-1] + currentBoard[ROWS][COLS] + currentBoard[ROWS][0] + currentBoard[0][0] + currentBoard[1][0]);
         }
         // Bottom middle ⬇
         if (row+1 < ROWS) {
             neighbours += currentBoard[row+1][col];
+        }else{
+            neighbours = (currentBoard[row][0] + currentBoard[row-1][0] + currentBoard[row+1][0]);
         }
         // Bottom right ↘
         if (row+1 < ROWS && col+1 < COLS) {
             neighbours += currentBoard[row+1][col+1];
+        }else{
+            neighbours = (currentBoard[ROWS-1][0] + currentBoard[ROWS][0] + currentBoard[0][0] + currentBoard[0][COLS] + currentBoard[0][COLS-1]);
         }
 
-        if(currentBoard[x][y] == 0){
+        if(currentBoard[row][col] == 0){
             if(neighbours == 3){
                 deadOrAlive = 1;
             }else {
                 deadOrAlive = 0;
             }
         }
-        else if(currentBoard[x][y] == 1){
+        else if(currentBoard[row][col] == 1){
             if(neighbours < 2){
                 deadOrAlive = 0;
             }else if(neighbours == 2 || neighbours == 3){
