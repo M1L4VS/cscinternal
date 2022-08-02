@@ -11,9 +11,11 @@ public class wraparoundv2
 
     // initialise instance variables
     final static int ROWS = 10, COLS = 10;
+    static int generationNum = 0;
+
     public static void main(String[] args)
     {
-        int generationNum = 0;
+
         // Initializing the grid.
         int[][] grid =
             {
@@ -37,37 +39,44 @@ public class wraparoundv2
         generationNum = Integer.parseInt(iterations);
         
         // Displaying the grid
-        System.out.println("Original Generation");
+        System.out.println("Original Generation " );
         Print(ROWS, COLS, grid);
-        
-        //need to fix this, find way to incorporate
-        System.out.println("generation: " + generationNum);
 
-        //next gen
-        nextGeneration(grid, ROWS, COLS);
+        for (int i = 1; i <= generationNum; i++ ){
+
+            System.out.println("generation: " + i);
+        
+            //next gen
+            grid = nextGeneration(grid, ROWS, COLS);
+            
+            Print(ROWS, COLS, grid);
+            
+        }
+
+        keyboard.close();
     }
+
+    // Prints grid but does not update it
     private static void Print(int ROWS, int COLS, int[][] grid)
-    {
-        //for ( int i = 0; i < generationNum; i++ ){
-            for (int row = 0; row < ROWS; row++)
+    {            
+        for (int row = 0; row < ROWS; row++)
+        {
+            for (int col = 0; col < COLS; col++)
             {
-                for (int col = 0; col < COLS; col++)
-                {
-                    if (grid[row][col] == 0)
-                        //System.out.print(" 💄 ");
-                        System.out.print(" - ");
-                    else
-                        //System.out.print(" 💋 ");
-                        System.out.print(" 0 ");
-                }
-                System.out.println();
+                if (grid[row][col] == 0)
+                    //System.out.print(" 💄 ");
+                    System.out.print(" - ");
+                else
+                    //System.out.print(" 💋 ");
+                    System.out.print(" 0 ");
             }
             System.out.println();
-        //}
+        }
+        System.out.println();    
     }
 
-    // Function to print next generation
-    private static void nextGeneration(int[][] grid, int ROWS, int COLS)
+    // Function to calculate next generation, does not print
+    private static int[][] nextGeneration(int[][] grid, int ROWS, int COLS)
     {
         int[][] future = new int[ROWS][COLS];
         
@@ -112,10 +121,10 @@ public class wraparoundv2
                     future[row][col] = grid[row][col];
             }
         }
-        Print(ROWS, COLS, future);
+        return future;
     }
     
-    // Function to check if cell is alive in next generation
+    // Function to check if cell is alive in next generation, returns 0 for dead, 1 for alive
     private static int IsNeighbourAlive(int[][] grid, int row, int col, int horizontal, int vertical)
     {
         int neighbourCol = col;
@@ -162,19 +171,3 @@ public class wraparoundv2
     }
 
 }
-// /**
-// * An example of a method - replace this comment with your own
-// *
-// * @param  y  a sample parameter for a method
-// * @return    the sum of x and y
-// */
-// public int sampleMethod(int y)
-// {
-// // put your code here
-// return x + y;
-// }
-// }
-// // Game of Life
-
-//using System;
-
