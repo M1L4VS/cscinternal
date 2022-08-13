@@ -90,7 +90,9 @@ public class wraparoundv3
             System.out.println();
     }
 
+
     // Function to calculate next generation, does not print
+    // Returns the next generation of the grid, leaving orignal unchanged 
     private static int[][] nextGeneration(int[][] grid, int ROWS, int COLS)
     {
         int[][] future = new int[ROWS][COLS];
