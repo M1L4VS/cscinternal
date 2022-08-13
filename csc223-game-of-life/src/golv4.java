@@ -4,9 +4,9 @@
 
  *
 
- * @author (your name)
+ * @author (Mila)
 
- * @version (a version number or a date)
+ * @version (14.08/2022)
 
  */
 
@@ -30,23 +30,17 @@ public class golv4
 
         PrintTitle();
 
- 
-
         System.out.println();
 
         System.out.println("Welcome to Conway's Game of Life. Choose a pattern to run");
 
         PrintOptions();
 
- 
-
         // The grid is outside of the for loop so we keep it
 
         int[][] grid = null;        
 
         Scanner keyboard = new Scanner(System.in);
-
- 
 
         for(int generation = 0; true ; )
 
@@ -71,6 +65,16 @@ public class golv4
             else if (choice.equals("2")){
 
                 grid = CreateGlider();
+
+                generation = 0;
+
+                startNewGame(keyboard, grid);
+
+            }
+
+            else if (choice.equals("3")){
+
+                grid = CreateToad();
 
                 generation = 0;
 
@@ -152,9 +156,11 @@ public class golv4
 
         System.out.println("2. Glider");
 
-        System.out.println("3. Random");
+        System.out.println("3. Toad");
 
-        System.out.println("4. Custom");
+        System.out.println("R. Random");
+
+        System.out.println("C. Custom");
 
         System.out.println("E. Exit");
 
@@ -235,7 +241,6 @@ public class golv4
         System.out.println('\u000c');
 
    
-
         System.out.println(" __     __    _      ____      ___   ____      _     _   ____  ____ ");
 
         System.out.println("/ /`_  / /\\  | |\\/| | |_      / / \\ | |_      | |   | | | |_  | |_  ");
@@ -482,13 +487,13 @@ public class golv4
 
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 
-                { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
-
-                { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
-
-                { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
-
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+
+                { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+
+                { 0, 0, 0, 1, 0, 1, 0, 0, 0, 0 },
+
+                { 0, 0, 0, 0, 1, 1, 0, 0, 0, 0 },
 
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 
@@ -506,7 +511,7 @@ public class golv4
 
    
 
-      public static int[][] CreatePulsar(){
+      public static int[][] CreateToad(){
 
         int[][] grid =
 
@@ -516,11 +521,13 @@ public class golv4
 
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 
-                { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 
-                { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 
-                { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 1, 1, 1, 0, 0, 0, 0 },
+
+                { 0, 0, 0, 0, 1, 1, 1, 0, 0, 0 },
 
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 
@@ -528,9 +535,7 @@ public class golv4
 
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 
             };
 
