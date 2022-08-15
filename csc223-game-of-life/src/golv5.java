@@ -12,17 +12,21 @@ public class golv5 {
     // initialise instance variables
     final static int ROWS = 20, COLS = 20;
     static int generationNum = 0;
+    
 
     public static void main(String[] args)
     {
         printTitle();
         printOptions();
-
+        
         // The grid is outside of the for loop so we keep it
         int[][] grid = new int[ROWS][COLS];
         Scanner keyboard = new Scanner(System.in);
+        int skip = 0;
 
         for (int generation = 0; true;){
+            if (skip == 0){
+
             // Pick a pattern to run
             String choice = keyboard.nextLine();
 
@@ -59,6 +63,11 @@ public class golv5 {
                 printGame(generation, grid);
                 continue;
             }
+            else if(choice.toUpperCase().startsWith("S")){
+                skip = skipGen(keyboard, grid);
+                printGame(generation, grid);
+                continue;
+            }
             else if (grid != null && choice.equals("")) {
                 // Continue with next generation
             }
@@ -73,6 +82,10 @@ public class golv5 {
                 // Go back to the top of the loop with continue
                 continue;
             }
+        }
+        else{
+            skip--;
+        }
 
             // Calculate next generation
             generation++;
@@ -99,6 +112,7 @@ public class golv5 {
         System.out.println("R. Random");
         System.out.println("C. Custom");
         System.out.println("E. Exit");
+        System.out.println("S. Skip");
     }
 
     // Prints grid but does not update it
@@ -360,5 +374,15 @@ public class golv5 {
                 grid[i][j] = (int)(Math.round(Math.random()));
             }
         }
+    }
+
+    public static int skipGen(Scanner keyboard, int[][] grid){
+        System.out.println("How many generations do you want to skip?");
+        String choice = keyboard.nextLine();
+        if(choice.equals("")){
+            int skip = 0;    
+        }
+        int skip = Integer.parseInt(choice);
+        return skip;
     }
 }
