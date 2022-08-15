@@ -49,6 +49,11 @@ public class golv5 {
                 System.exit(0);
                 return;
             }
+            else if (choice.equalsIgnoreCase("R")) {
+                randomGame(keyboard, grid);
+                printGame(generation, grid);
+                continue; 
+            }
             else if (choice.equalsIgnoreCase("C")) {
                 customGame(keyboard, grid);
                 printGame(generation, grid);
@@ -345,6 +350,14 @@ public class golv5 {
             }
             catch(NumberFormatException e){
                 System.out.println("invalid input");
+            }
+        }
+    }
+
+    public static void randomGame(Scanner keyboard, int[][] grid){
+        for(int i = 0; i < ROWS; i ++){
+            for(int j = 0; j < COLS; j ++){
+                grid[i][j] = (int)(Math.round(Math.random()));
             }
         }
     }
