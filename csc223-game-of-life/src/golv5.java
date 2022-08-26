@@ -10,26 +10,31 @@ import java.util.Scanner;
 public class golv5 {
 
     // initialise instance variables
-    final static int ROWS = 20, COLS = 20;
+    final static int ROWS = 20;
+    final static int COLS = 20;
     static int generationNum = 0;
     
 
+    //Main, runs whole time so people can enter stuff
     public static void main(String[] args)
     {
+        //Print title and menu 
         printTitle();
         printOptions();
         
-        // The grid is outside of the for loop so we keep it
+        //The grid is outside of the for loop so we keep it
         int[][] grid = new int[ROWS][COLS];
         Scanner keyboard = new Scanner(System.in);
         int skip = 0;
 
+        //While we are in the game
         for (int generation = 0; true;){
             if (skip == 0){
 
             // Pick a pattern to run
             String choice = keyboard.nextLine();
 
+            //What they can enter from the menu
             if (choice.equals("1")) {
                 grid = CreateBlinker();
                 generation = 0;
@@ -68,6 +73,7 @@ public class golv5 {
                 printGame(generation, grid);
                 continue;
             }
+            //If they just press enter (nothing in text box)
             else if (grid != null && choice.equals("")) {
                 // Continue with next generation
             }
@@ -79,7 +85,7 @@ public class golv5 {
             else {
                 System.out.println("Invalid choice");
                 printOptions();
-                // Go back to the top of the loop with continue
+                // Go back to the top of the loop with continue, tell them it's invalid
                 continue;
             }
         }
@@ -94,7 +100,7 @@ public class golv5 {
         }
     }
 
-    // Print the grid, generation number and hints
+    // Print the grid, generation number and info for menu etc. 
     private static void printGame(int generation, int[][] grid) {
         //System.out.println('\u000c');
         System.out.print("\033[H\033[2J");  
@@ -104,6 +110,7 @@ public class golv5 {
         System.out.println("Generation: " + generation + ". [ENTER] to continue. [M]enu. [E]xit");
     }
 
+    //Print menu
     private static void printOptions() {
         System.out.println("Welcome to Conway's Game of Life. Choose a pattern to run");
         System.out.println("1. Blinker");
@@ -118,16 +125,15 @@ public class golv5 {
     // Prints grid but does not update it
     private static void print(int ROWS, int COLS, int[][] grid)
     {
+        //Printing borders and the cells
         printHorizontalBorder();
         for (int row = 0; row < ROWS; row++)
         {
             System.out.print("| ");
             for (int col = 0; col < COLS; col++) {
                 if (grid[row][col] == 0)
-                    //System.out.print("    ");
                     System.out.print("   ");
                 else
-                    //System.out.print(" 🦠 ");
                     System.out.print(" ø ");
             }
 
@@ -146,6 +152,8 @@ public class golv5 {
         System.out.println();
     }
 
+    //Ascii title printed at the start
+    //Have to use 2 backslashes for each 1 
     private static void printTitle() {
         System.out.println("\f");
         System.out.println('\u000c');
@@ -158,6 +166,7 @@ public class golv5 {
     // Function to calculate next generation, does not print
     // Returns the next generation of the grid
     private static int[][] nextGeneration(int[][] grid, int ROWS, int COLS) {
+        
         int[][] future = new int[ROWS][COLS];
 
         // Loop through every cell
@@ -256,6 +265,8 @@ public class golv5 {
         return grid[neighbourRow][neighbourCol];
     }
 
+    //Oscillators
+    //Blinker 
     public static int[][] CreateBlinker() {
         int[][] grid =
                 {
@@ -283,6 +294,7 @@ public class golv5 {
         return grid;
     }
 
+    //Glider
     public static int[][] CreateGlider() {
         int[][] grid =
                 {
@@ -310,6 +322,7 @@ public class golv5 {
         return grid;
     }
 
+    //Toad
     public static int[][] CreateToad() {
         int[][] grid =
                 {
@@ -337,6 +350,7 @@ public class golv5 {
         return grid;
     }
 
+    //Allow editing of a cell - custom game
     public static void customGame(Scanner keyboard, int[][] grid){
         while(true){
             System.out.println("Make custom pattern. Type {ROW 0-19} {COL 0-19} {0 or 1} eg. 5 4 1 [ENTER]. [R]un");
@@ -345,15 +359,16 @@ public class golv5 {
                 return;
             }
 
-            //split string by the space character
+            //Split string by the space character
             String[] options = choice.split(" ");
 
-            //if they've entered the wrong number of characters 
+            //If they've entered the wrong number of characters 
             if(options.length != 3){
                 System.out.println("invalid input");
                 continue; 
             }
 
+            //Looked up how to do this; it takes the options string and puts the 1st value = row, 2nd = col, 3rd = state
             try{
                 int row = Integer.parseInt(options[0]);
                 int col = Integer.parseInt(options[1]);
@@ -362,12 +377,15 @@ public class golv5 {
                 grid[row][col] = state;
                 print(ROWS, COLS, grid);
             }
+
+            //So the programme doesn't break if you enter a non-number
             catch(NumberFormatException e){
                 System.out.println("invalid input");
             }
         }
     }
 
+    //Generate a random board
     public static void randomGame(Scanner keyboard, int[][] grid){
         for(int i = 0; i < ROWS; i ++){
             for(int j = 0; j < COLS; j ++){
@@ -376,6 +394,7 @@ public class golv5 {
         }
     }
 
+    //Allow user to skip an entered number of generations
     public static int skipGen(Scanner keyboard, int[][] grid){
         System.out.println("How many generations do you want to skip?");
         String choice = keyboard.nextLine();
