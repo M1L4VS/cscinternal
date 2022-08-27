@@ -353,7 +353,7 @@ public class golv5 {
     //Allow editing of a cell - custom game
     public static void customGame(Scanner keyboard, int[][] grid){
         while(true){
-            System.out.println("Make custom pattern. Type {ROW 0-19} {COL 0-19} {0 or 1} eg. 5 4 1 [ENTER]. [R]un");
+            System.out.println(String.format("Make custom pattern. Type {ROW 0-%d} {COL 0-%d} {0 or 1} eg. 5 4 1 [ENTER]. [R]un", ROWS-1 , COLS-1));
             String choice = keyboard.nextLine();
             if (choice.equalsIgnoreCase("R")){
                 return;
@@ -367,21 +367,33 @@ public class golv5 {
                 System.out.println("invalid input");
                 continue; 
             }
+            
+            int row = 0;
+            int col = 0;
+            int state = 0;
 
             //Looked up how to do this; it takes the options string and puts the 1st value = row, 2nd = col, 3rd = state
             try{
-                int row = Integer.parseInt(options[0]);
-                int col = Integer.parseInt(options[1]);
-                int state = Integer.parseInt(options[2]);
+                row = Integer.parseInt(options[0]);
+                col = Integer.parseInt(options[1]);
+                state = Integer.parseInt(options[2]);
 
+                //if the numbers are out of the grid dimension
+                if((row < 0 || row >= ROWS) || (col < 0 || col >= COLS) || (state != 1 && state != 0)){
+                    System.out.println("invalid input, please enter within the dimensions of the grid and 0 or 1 for state");
+                    continue;
+                }
+                
+                //update the grid 
                 grid[row][col] = state;
                 print(ROWS, COLS, grid);
             }
 
-            //So the programme doesn't break if you enter a non-number
-            catch(NumberFormatException e){
+             //So the programme doesn't break if you enter a non-number
+             catch(NumberFormatException e){
                 System.out.println("invalid input");
             }
+
         }
     }
 
@@ -399,9 +411,19 @@ public class golv5 {
         System.out.println("How many generations do you want to skip?");
         String choice = keyboard.nextLine();
         if(choice.equals("")){
-            int skip = 0;    
+            System.out.println("invalid input");
+            return 0;    
         }
-        int skip = Integer.parseInt(choice);
-        return skip;
+
+        try{
+            int skip = Integer.parseInt(choice);
+            return skip;
+        }
+
+        //So the programme doesn't break if you enter a non-number
+        catch(NumberFormatException e){
+            System.out.println("invalid input");
+            return 0;
+        }
     }
 }
